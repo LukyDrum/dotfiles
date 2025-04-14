@@ -1,5 +1,5 @@
 -- Set color scheme
-vim.cmd("colorscheme cyberdream")
+vim.cmd("colorscheme nordfox")
 
 -- Tab size
 vim.opt.tabstop = 4
@@ -18,3 +18,6 @@ end
 
 -- Setup bufferline
 vim.opt.termguicolors = true
+
+-- Show line numbers
+vim.wo.number = true

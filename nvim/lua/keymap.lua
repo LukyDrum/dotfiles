@@ -10,6 +10,7 @@ vim.keymap.set("n", "<leader>e", ":Neotree<CR>")
 -- Open symbols outline
 vim.keymap.set("n", "<leader>s", ":SymbolsOutline<CR>")
 
--- Move through tabs
+-- Tabs controls
 vim.keymap.set("n", "<M-Left>", ":BufferLineCyclePrev<CR>")
 vim.keymap.set("n", "<M-Right>", ":BufferLineCycleNext<CR>")
+vim.keymap.set("n", "<M-q>", ":bd | bn<CR>")
