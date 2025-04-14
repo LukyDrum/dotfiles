@@ -11,5 +11,5 @@ vim.keymap.set("n", "<leader>e", ":Neotree<CR>")
 vim.keymap.set("n", "<leader>s", ":SymbolsOutline<CR>")
 
 -- Move through tabs
-vim.keymap.set("n", "<M-Left>", ":BufferLineCyclePrev")
-vim.keymap.set("n", "<M-Right>", ":BufferLineCycleNext")
+vim.keymap.set("n", "<M-Left>", ":BufferLineCyclePrev<CR>")
+vim.keymap.set("n", "<M-Right>", ":BufferLineCycleNext<CR>")
