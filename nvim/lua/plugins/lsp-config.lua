@@ -20,6 +20,7 @@ return {
                     "html",
                     "jsonls",
                     "markdown_oxide",
+                    "ruby_lsp",
                 }
             })
         end
@@ -40,6 +41,12 @@ return {
             lspconfig.html.setup({})
             lspconfig.jsonls.setup({})
             lspconfig.markdown_oxide.setup({})
+            lspconfig.ruby_lsp.setup({
+                init_options = {
+                    formatter = 'standard',
+                    linters = { 'standard' },
+                },
+            })
 
             -- Setup omnishar for Unity
             lspconfig.omnisharp.setup {
