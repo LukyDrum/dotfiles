@@ -1,6 +1,0 @@
--- A list of additional programs that need to be installed for the configs to work (apart from the programs for which the configs are itself)
-
-npm
-mako
-hyprpolkitagent
-swww
