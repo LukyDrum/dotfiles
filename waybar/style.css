@@ -1,0 +1,78 @@
+@import url('/home/lukydrum/.config/colors.css');
+
+* {
+    font-size:17px;
+    font-family: "CodeNewRoman Nerd Font Propo";
+}
+window#waybar{
+    all:unset;
+}
+.modules-left {
+    padding:7px;
+    margin:10 0 0 10;
+    border-radius:10px;
+    background: alpha(@background, 1.0);
+}
+.modules-center {
+    padding:7px;
+    margin:10 0 0 0;
+    border-radius:10px;
+    background: alpha(@background, 1.0);
+}
+.modules-right {
+    padding:7px;
+    margin: 10 10 0 0;
+    border-radius:10px;
+    background: alpha(@background, 1.0);
+}
+tooltip {
+    background:@background;
+    color: @color7;
+}
+#clock:hover, #custom-pacman:hover, #custom-notification:hover,#bluetooth:hover,#network:hover,#battery:hover, #cpu:hover,#memory:hover,#temperature:hover{
+    transition: all .3s ease;
+    color:@color9;
+}
+#custom-notification {
+    padding: 0px 5px;
+    transition: all .3s ease;
+    color:@color7;
+}
+#clock{
+    padding: 0px 5px;
+    color:@color7;
+    transition: all .3s ease;
+}
+#custom-pacman{
+    padding: 0px 5px;
+    transition: all .3s ease;
+    color:@color7;
+}
+
+#workspaces {
+}
+#workspaces button {
+    all:unset;
+    padding: 0px 5px;
+    color: alpha(@color9, 0.5);
+    transition: all .2s ease;
+}
+#workspaces button:hover {
+    color: alpha(@color9, 0.8);
+    transition: all 1s ease;
+}
+#workspaces button.active {
+    color: @color9;
+}
+
+#bluetooth{
+    padding: 0px 5px;
+    transition: all .3s ease;
+    color:@color7;
+}
+
+#network{
+    padding: 0px 5px;
+    transition: all .3s ease;
+    color:@color7;
+}
