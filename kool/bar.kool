@@ -1,0 +1,209 @@
+import mpris
+import hyprland
+
+// Helper functions
+
+def formatTime(*date) {
+    var hours = date.hour
+    var minutes = date.minute
+
+    format("{:02}:{:02}", hours, minutes)
+}
+
+def formatTrack(*track) {
+    var title = track.title
+    var artist = track.artist
+
+    format("{} : {}", artist, title)
+}
+
+// Styles
+var workspaceButtonStyle = {
+    "background": "#b29682ff",
+    "width": 20,
+    "height": 20,
+    "border": {
+        "radius": [20, 20, 20, 20],
+    },
+}
+var currentWorkspaceButtonStyle = clone(workspaceButtonStyle)
+currentWorkspaceButtonStyle.background = "#f2ceb4ff"
+
+// Element definitions
+
+def SingleWorkspaceButton(isActive, target) {
+    var style = if isActive { currentWorkspaceButtonStyle } else { workspaceButtonStyle }
+
+    Button(
+        style: style,
+        onClick: def () {
+            hyprland.focusWorkspace(target)
+        },
+        Text("")
+    )
+}
+
+def Part(alignX, *inner) {
+    Container(
+        style: {
+            "alignX": alignX,
+            "background": "#00000000",
+        },
+        inner
+    )
+}
+
+def LeftPart() {
+    Part(
+        alignX: "start",
+        Container(
+            style: {
+                "width": "shrink",
+                "padding": [10, 30, 10, 30],
+                "border": {
+                    "radius": [0, 0, 20, 0],
+                },
+            },
+            Row(
+                style: {
+                    "spacing": 10,
+                },
+                enumerateMap(
+                    func: def (index, value) {
+                        SingleWorkspaceButton(
+                            isActive: value,
+                            target: index + 1,
+                        )
+                    },
+                    workspaceStates
+                )
+            )
+        )
+    )
+}
+
+def CenterPart() {
+    Part(
+        alignX: "center",
+        Container(
+            style: {
+                "width": "shrink",
+                "padding": [10, 30, 10, 30],
+                "border": {
+                    "radius": [0, 0, 20, 20],
+                },
+            },
+            Text(
+                style: {
+                    "alignX": "center",
+                    "alignY": "center",
+                },
+                formatTime(currentDate)
+            )
+        )
+    )
+}
+
+def RightPart() {
+    var trackTextStyle = {
+        "alignX": "end",
+        "alignY": "center",
+    }
+
+    if !(currentTrack.isPlaying ? false) {
+        trackTextStyle.color = "#b29682ff"
+    }
+
+    Part(
+        alignX: "end",
+        Container(
+            style: {
+                "width": "shrink",
+                "padding": [10, 30, 10, 30],
+                "border": {
+                    "radius": [0, 0, 0, 20],
+                },
+            },
+            Button(
+                onClick: def () {
+                    mpris.playPause()
+                    refresh()
+                },
+                Text(
+                    style: trackTextStyle,
+                    formatTrack(currentTrack)
+                )
+            )
+        )
+    )
+}
+
+// Init
+
+var currentDate = date()
+var currentTrack = {}
+
+var workspacesCount = 9
+var workspaceStates = repeat(value: false, times: workspacesCount)
+
+def hyprlandEventCallback(event) {
+    if event.event == "WorkspaceV2" {
+        var activeIndex = event.id - 1
+
+        var i = 0
+        while i < workspacesCount {
+            workspaceStates[i] = i == activeIndex
+            i = i + 1
+        }
+
+        refresh()
+    }
+}
+
+def init() {
+    subscribe(
+        callback: def (date) {
+            currentDate = date
+            refresh()
+        },
+        timeEvents(onEvery: "minute")
+    )
+
+    subscribe(
+        callback: def (track) {
+            currentTrack = track
+            refresh()
+        },
+        mpris.events()
+    )
+
+    subscribe(
+        callback: hyprlandEventCallback,
+        hyprland.events()
+    )
+
+    {
+        "size": [0, 40],
+        "exclusiveZone": 40,
+        "anchor": ["Top", "Left", "Right"],
+    }
+}
+
+def style() {
+    {
+        "font": "Space Grotesk",
+        "textSize": 22,
+        "color": "#f2ceb4ff",
+        "background": "#103641ff",
+    }
+}
+
+def view() {
+    Row(
+        [
+            LeftPart(),
+            CenterPart(),
+            RightPart(),
+        ]
+    )
+}
